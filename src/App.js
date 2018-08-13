@@ -10,7 +10,18 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: false,
+	shelves: [	{id: 'currentlyReading',
+				title: 'Currently Reading',
+				books: []},
+
+				{id: 'wantToRead',
+				title: 'Want to Read',
+				books: []},
+
+				{id: 'read',
+				title: 'Read',
+				books: []}]
   }
 
   render() {
