@@ -61,6 +61,19 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
+
+               {/*Bookshelfs starts here*/}
+
+               {this.state.shelves.map( (shelf) => (
+
+											<div className="bookshelf">
+													<h2 className="bookshelf-title">{shelf.title}</h2>
+													<div className="bookshelf-books">
+													</div>
+											</div>
+									))}
+
+               {/*And ends here*/}
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Currently Reading</h2>
                   <div className="bookshelf-books">
