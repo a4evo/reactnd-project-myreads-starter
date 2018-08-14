@@ -26,6 +26,8 @@ class BooksApp extends React.Component {
 	}
 
   render() {
+		const { shelves, books }	= this.state
+
     return (
       <div className="app">
 
@@ -40,11 +42,11 @@ class BooksApp extends React.Component {
 
                {/*Bookshelfs starts here*/}
 
-               {this.state.shelves.map( (shelf) => (
+               {shelves.map( (shelf) => (
 											<div className="bookshelf" key={shelf.id}>
 													<h2 className="bookshelf-title">{shelf.title}</h2>
 													<div className="bookshelf-books">
-														<BooksGrid shelves={this.state.shelves} books={ this.state.books.filter( book => book.shelf === shelf.id) }/>
+														<BooksGrid shelves={ shelves } books={ books.filter( book => book.shelf === shelf.id) }/>
 													</div>
 											</div>
 									))}
@@ -61,7 +63,7 @@ class BooksApp extends React.Component {
 
 
         <Route path="/search" render={ () => (
-          <Search />
+          <Search shelves={ shelves }/>
         )}  />
       </div>
     )

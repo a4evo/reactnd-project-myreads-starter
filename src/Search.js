@@ -2,20 +2,41 @@ import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
 import BooksGrid from './BooksGrid'
+import PropTypes from 'prop-types'
 
 class Search extends Component {
 
+	static propTypes = {
+		shelves: PropTypes.array.isRequired
+	}
+
 	state = {
-		query: ''
+		query: '',
+		books: []
 	}
 
 	updateQuery = ( query ) => {
+		query = query.trim()
 		this.setState({ query })
 	}
 
+	componentDidUpdate(prevProp, prevState) {
+		const { query } = this.state
+		if ( query !== prevState.query ) {
+			BooksAPI.search( query ).then( books => {
+					if ( books && books.length>0) {
+						this.setState({ books })
+					}
+				})
+		}
+	}
+
 	render () {
+		const { books, query } = this.state
+		const { shelves } = this.props
 
 		return (
+
 			<div className="search-books">
 				<div className="search-books-bar">
 					<Link className="close-search" to="/">Close</Link>
@@ -31,23 +52,14 @@ class Search extends Component {
 						<input type="text"
 									placeholder="Search by title or author"
 									onChange={ e => {
-											if (e.target.value.length > 2) {
-												this.updateQuery(e.target.value)}
-											}
-
-
-																																								}/>
+												this.updateQuery(e.target.value)}}
+						/>
 
 					</div>
 				</div>
 				<div className="search-books-results">
-					<ol className="books-grid">
-
-						{/*THIS IS TEMPORARY START*/}
-						{this.state.query}
-						{/*THIS IS TEMPORARY END*/}
-
-					</ol>
+						<div>Searcing for: {query} </div>
+						<BooksGrid books={books} shelves={shelves}/>
 				</div>
 			</div>
 		)
