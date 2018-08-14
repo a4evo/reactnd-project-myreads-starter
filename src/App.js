@@ -43,7 +43,7 @@ class BooksApp extends React.Component {
 											<div className="bookshelf" key={shelf.id}>
 													<h2 className="bookshelf-title">{shelf.title}</h2>
 													<div className="bookshelf-books">
-														<BooksGrid books={ this.state.books.filter( book => book.shelf === shelf.id) }/>
+														<BooksGrid shelves={this.state.shelves} books={ this.state.books.filter( book => book.shelf === shelf.id) }/>
 													</div>
 											</div>
 									))}

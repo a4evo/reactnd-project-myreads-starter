@@ -161,6 +161,11 @@ body, .app {
   cursor: pointer;
 }
 
+.book-shelf-changer option[selected] {
+	font-weight: bold;
+	color: #60ac5d;
+}
+
 /* book cover */
 
 .book-cover {
