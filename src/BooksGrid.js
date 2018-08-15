@@ -11,7 +11,7 @@ class BooksGrid extends Component {
 
 	render() {
 
-		const books = this.props.books
+		const { books } = this.props
 
 		return (
 			<ol className="books-grid">
@@ -38,7 +38,8 @@ class Book extends Component {
 		const { book } = this.props
 		const { id, imageLinks, title, authors } = book
 
-		const imgURL = ( imageLinks != undefined && imageLinks.thumbnail != undefined) ? ('url("' + imageLinks.thumbnail + '")') : ('none')
+		const imgURL = ( imageLinks !== undefined && imageLinks.thumbnail !== undefined) ? ('url("' + imageLinks.thumbnail + '")') : ('none')
+
 		const author = (authors) ? (authors.join(', ')):('Unknown')
 
 		return(
