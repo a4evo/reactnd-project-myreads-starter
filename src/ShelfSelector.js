@@ -9,15 +9,14 @@ class ShelfSelector extends Component {
 
 
 	render() {
-		const allShelves = this.props.shelves
-		const chosenShelf = this.props.shelf
+		const {shelves, shelf} = this.props
 
 		return (
 			<div className="book-shelf-changer">
-				<select defaultValue={chosenShelf}>
+				<select defaultValue={shelf}>
 					<option value="move" disabled>Move to...</option>
 
-					{allShelves.map( shelf => (
+					{shelves.map( shelf => (
 						<option value={shelf.id}
 										key={shelf.id}>{shelf.title}</option>
 					))}

@@ -23,10 +23,14 @@ class Search extends Component {
 	componentDidUpdate(prevProp, prevState) {
 		const { query } = this.state
 		if ( query !== prevState.query ) {
-			BooksAPI.search( query ).then( books => {
-					if ( books && books.length>0) {
-						this.setState({ books })
+			BooksAPI.search( query ).then( response => {
+
+					if ( response && Array.isArray(response) ) {
+						this.setState({ books: response })
+					} else {
+						this.setState({ books: [] })
 					}
+
 				})
 		}
 	}
@@ -53,6 +57,7 @@ class Search extends Component {
 									placeholder="Search by title or author"
 									onChange={ e => {
 												this.updateQuery(e.target.value)}}
+									value={ query }
 						/>
 
 					</div>

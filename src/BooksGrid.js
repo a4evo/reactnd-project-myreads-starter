@@ -11,17 +11,19 @@ class BooksGrid extends Component {
 
 	render() {
 
-		const { books } = this.props
+		const { books, shelves } = this.props
 
 		return (
 			<ol className="books-grid">
 
-				{books.map( book => (
-						<Book book={book} key={book.id}>
-								<ShelfSelector shelf={book.shelf}
-															shelves={this.props.shelves}/>
+				{(	books.length > 0 ) ? (
+					books.map( book => (
+						<Book book={ book } key={ book.id } shelves={ shelves }>
+
 					</Book>
-				))}
+				))) : (
+				<div>Nothing found</div>
+				)}
 			</ol>
 		)
 	}
@@ -29,14 +31,15 @@ class BooksGrid extends Component {
 }
 
 class Book extends Component {
-
 	static propTypes = {
-			book: PropTypes.object.isRequired
+			book: PropTypes.object.isRequired,
+			shelves: PropTypes.array.isRequired
 		}
 
 	render () {
-		const { book } = this.props
+		const { book, shelves } = this.props
 		const { id, imageLinks, title, authors } = book
+		const shelf = (book.shelf) ? (book.shelf) : ( 'none' )
 
 		const imgURL = ( imageLinks !== undefined && imageLinks.thumbnail !== undefined) ? ('url("' + imageLinks.thumbnail + '")') : ('none')
 
@@ -48,7 +51,8 @@ class Book extends Component {
 							<div className="book-top">
 								<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: imgURL }}></div>
 
-								{this.props.children}
+								<ShelfSelector shelf={shelf}
+															shelves={shelves}/>
 
 							</div>
 							<div className="book-title">{ title }</div>
