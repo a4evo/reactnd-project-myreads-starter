@@ -38,8 +38,8 @@ class Book extends Component {
 
 	render () {
 		const { book, shelves } = this.props
-		const { id, imageLinks, title, authors } = book
-		const shelf = (book.shelf) ? (book.shelf) : ( 'none' )
+		const { id, imageLinks, title, authors, shelf } = book
+
 
 		const imgURL = ( imageLinks !== undefined && imageLinks.thumbnail !== undefined) ? ('url("' + imageLinks.thumbnail + '")') : ('none')
 

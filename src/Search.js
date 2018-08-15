@@ -26,7 +26,11 @@ class Search extends Component {
 			BooksAPI.search( query ).then( response => {
 
 					if ( response && Array.isArray(response) ) {
-						this.setState({ books: response })
+						this.setState({ books: response.map( val => {
+								if ( !val.shelf ) val.shelf = "none"
+							return val;
+							})
+						})
 					} else {
 						this.setState({ books: [] })
 					}
