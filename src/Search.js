@@ -67,8 +67,9 @@ class Search extends Component {
 					</div>
 				</div>
 				<div className="search-books-results">
-						<div>Searcing for: {query} </div>
-						<BooksGrid books={books} shelves={shelves}/>
+
+							<BooksGrid books={books} shelves={shelves}/>
+
 				</div>
 			</div>
 		)
