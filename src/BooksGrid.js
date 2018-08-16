@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ShelfSelector from './ShelfSelector'
-import * as BooksAPI from './BooksAPI'
 
 class BooksGrid extends Component {
 
@@ -9,13 +8,6 @@ class BooksGrid extends Component {
 		books: PropTypes.array.isRequired,
 		shelves: PropTypes.array.isRequired,
 		onChange: PropTypes.func.isRequired
-	}
-
-
-	onShelfChange = (newShelf, id) => {
-		BooksAPI.update( { id }, newShelf).then(
-			this.props.onChange(newShelf, id)
-		)
 	}
 
 	render() {
@@ -27,7 +19,10 @@ class BooksGrid extends Component {
 
 				{(	books.length > 0 ) ? (
 					books.map( book => (
-						<Book book={ book } key={ book.id } shelves={ shelves }/>
+						<Book book={ book }
+									key={ book.id }
+									shelves={ shelves }
+									onChange={ (s, id ) => this.props.onChange(s, id)}/>
 
 				))) : (
 				<div>Nothing found</div>
@@ -41,21 +36,14 @@ class BooksGrid extends Component {
 class Book extends Component {
 	static propTypes = {
 			book: PropTypes.object.isRequired,
-			shelves: PropTypes.array.isRequired
+			shelves: PropTypes.array.isRequired,
+			onChange: PropTypes.func.isRequired
 		}
-
-	onShelfChange = (newShelf, id) => {
-		BooksAPI.update( { id }, newShelf).then(
-			this.props.onChange(newShelf, id)
-		)
-	}
 
 	render () {
 
 		const { book, shelves } = this.props
 		const { id, imageLinks, title, authors, shelf } = book
-
-		shelf !=='none' && console.log(title + '---' + shelf)
 
 		const imgURL = ( imageLinks !== undefined && imageLinks.thumbnail !== undefined) ? ('url("' + imageLinks.thumbnail + '")') : ('none')
 
@@ -69,6 +57,7 @@ class Book extends Component {
 
 								<ShelfSelector shelf={ shelf }
 																shelves={ shelves }
+																onChange={ s => this.props.onChange(s, id)}
 															/>
 
 							</div>

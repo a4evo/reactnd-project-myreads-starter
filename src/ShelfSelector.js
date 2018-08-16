@@ -8,18 +8,12 @@ class ShelfSelector extends Component {
 		onChange: PropTypes.func.isRequired
 	}
 
-	moveBook = (newShelf) => {
-		if (this.props.onChange) {
-			this.props.onChange(newShelf)
-		}
-	}
-
 	render() {
 		const {shelves, shelf} = this.props
 
 		return (
 			<div className="book-shelf-changer">
-				<select defaultValue={shelf} onChange={e => this.moveBook(e.target.value)}>
+				<select defaultValue={shelf} onChange={e => this.props.onChange(e.target.value)}>
 					<option value="move" disabled>Move to...</option>
 
 					{shelves.map( shelf => (

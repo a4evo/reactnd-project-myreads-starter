@@ -32,7 +32,7 @@ class ListBooks extends Component {
 									<BooksGrid
 											shelves={ shelves }
 											books={ books.filter( book => book.shelf === shelf.id) }
-											onChange={ (shelf, id) => this.props.onChange(shelf, id)}
+											onChange={ (s, id) => this.props.onChange(s, id)}
 									/>
 							</Shelf>
 				))}

@@ -26,12 +26,14 @@ class BooksApp extends Component {
 	}
 
 	moveBook = (shelf, id) => {
-		const books = this.state.books.filter( book => {
+		BooksAPI.update( { id }, shelf).then( () => {
+			const books = this.state.books.filter( book => {
 				if (book.id === id) book.shelf = shelf
 				return book.shelf !== 'none'
 			})
 
-		this.setState({ books })
+			this.setState({ books })
+		})
 	}
 
   render() {
