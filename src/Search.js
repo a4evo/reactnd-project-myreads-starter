@@ -8,7 +8,7 @@ class Search extends Component {
 
 	static propTypes = {
 		shelves: PropTypes.array.isRequired,
-		books: PropTypes.array.isRequired
+		books: PropTypes.object
 	}
 
 	state = {
@@ -19,29 +19,26 @@ class Search extends Component {
 	updateQuery = ( query ) => {
 		query = query.trim()
 		this.setState({ query })
-	}
+		BooksAPI.search( query ).then( response => {
+			const { idArr, shelfArr } = this.props.books
 
-	componentWillReceiveProps (props) {
-		console.log(props)
-	}
+			if ( response && Array.isArray(response) ) {
+				this.setState({ books: response.map( book => {
+						if ( !book.shelf ) book.shelf = "none"
 
-	componentDidUpdate(prevProp, prevState) {
-		const { query } = this.state
-		if ( query !== prevState.query ) {
-			BooksAPI.search( query ).then( response => {
+						if ( idArr.length > 0 ) {
+							const i = idArr.indexOf( book.id )
+							if ( i !== -1) book.shelf = shelfArr[i]
+						}
 
-					if ( response && Array.isArray(response) ) {
-						this.setState({ books: response.map( val => {
-								if ( !val.shelf ) val.shelf = "none"
-							return val;
-							})
-						})
-					} else {
-						this.setState({ books: [] })
-					}
-
+					return book;
+					})
 				})
-		}
+				console.log(this.state)
+			} else {
+				this.setState({ books: [] })
+			}
+		})
 	}
 
 	render () {
@@ -73,7 +70,8 @@ class Search extends Component {
 				</div>
 				<div className="search-books-results">
 
-							<BooksGrid books={books} shelves={shelves}/>
+							<BooksGrid
+								books={books} shelves={shelves}/>
 
 				</div>
 			</div>

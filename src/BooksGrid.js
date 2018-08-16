@@ -27,12 +27,8 @@ class BooksGrid extends Component {
 
 				{(	books.length > 0 ) ? (
 					books.map( book => (
-						<Book book={ book } key={ book.id } shelves={ shelves }>
-							<ShelfSelector shelf={ book.shelf }
-															shelves={ shelves }
-															onChange={s => this.onShelfChange(s, book.id)}
-															/>
-						</Book>
+						<Book book={ book } key={ book.id } shelves={ shelves }/>
+
 				))) : (
 				<div>Nothing found</div>
 				)}
@@ -48,10 +44,18 @@ class Book extends Component {
 			shelves: PropTypes.array.isRequired
 		}
 
-	render () {
-		const { book } = this.props
-		const { id, imageLinks, title, authors } = book
+	onShelfChange = (newShelf, id) => {
+		BooksAPI.update( { id }, newShelf).then(
+			this.props.onChange(newShelf, id)
+		)
+	}
 
+	render () {
+
+		const { book, shelves } = this.props
+		const { id, imageLinks, title, authors, shelf } = book
+
+		shelf !=='none' && console.log(title + '---' + shelf)
 
 		const imgURL = ( imageLinks !== undefined && imageLinks.thumbnail !== undefined) ? ('url("' + imageLinks.thumbnail + '")') : ('none')
 
@@ -63,7 +67,9 @@ class Book extends Component {
 							<div className="book-top">
 								<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: imgURL }}></div>
 
-								{this.props.children}
+								<ShelfSelector shelf={ shelf }
+																shelves={ shelves }
+															/>
 
 							</div>
 							<div className="book-title">{ title }</div>

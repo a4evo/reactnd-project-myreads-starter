@@ -49,12 +49,9 @@ class BooksApp extends Component {
 
         <Route path="/search" render={ () => (
 
-          <Search shelves={ shelves } books={
-								books.map( book => {
-									const { id, shelf } = book
-									return { id, shelf }
-								})
-							}/>
+          <Search shelves={ shelves }
+          		books={{idArr: books.map( book => book.id),
+          		shelfArr: books.map( book => book.shelf)}}/>
 
         )}  />
       </div>
