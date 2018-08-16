@@ -12,36 +12,50 @@ class ListBooks extends Component {
 
 		render() {
 			const { shelves, books }	= this.props
-				return (
+
+			return (
+
 				<div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
+					<div className="list-books-title">
+						<h1>MyReads</h1>
+					</div>
+					<div className="list-books-content">
+						<div>
 
-              <div>
-          	 	{/*Bookshelfs starts here*/}
+						 {shelves.map( (shelf) => (
+								<Shelf shelf={ shelf } key={ shelf.id }>
+										<BooksGrid
+												shelves={ shelves }
+												books={ books.filter( book => book.shelf === shelf.id) }
+										/>
+								</Shelf>
+							))}
 
-							 {shelves.map( (shelf) => (
-											<div className="bookshelf" key={shelf.id}>
-													<h2 className="bookshelf-title">{shelf.title}</h2>
-													<div className="bookshelf-books">
-														<BooksGrid
-															shelves={ shelves }
-															books={ books.filter( book => book.shelf === shelf.id) }/>
-													</div>
-											</div>
-								))}
-
-							{/*And ends here*/}
-					 </div>
-
-            </div>
-            <div className="open-search">
-              <Link to="/search">Add a book</Link>
-            </div>
-          </div>
-		)}
+				 		</div>
+					</div>
+					<div className="open-search">
+						<Link to="/search">Add a book</Link>
+					</div>
+				</div>
+	)}
 }
 
 export default ListBooks
+
+class Shelf extends Component {
+	static propTypes = {
+		shelf: PropTypes.object.isRequired
+	}
+
+render () {
+	const { shelf } = this.props
+	return(
+		<div className="bookshelf" key={shelf.id}>
+			<h2 className="bookshelf-title">{shelf.title}</h2>
+			<div className="bookshelf-books">
+				{this.props.children}
+			</div>
+	</div>
+	)
+}
+}
