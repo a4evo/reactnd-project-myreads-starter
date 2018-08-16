@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import { Route, Link } from 'react-router-dom'
-import BooksGrid from './BooksGrid'
+import { Route } from 'react-router-dom'
+import ListBooks from './ListBooks'
 import Search from './Search'
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
 		shelves: [	{id: 'currentlyReading',
 								title: 'Currently Reading'},
@@ -26,44 +26,22 @@ class BooksApp extends React.Component {
 	}
 
   render() {
-		const { shelves, books }	= this.state
+		const { shelves }	= this.state
 
     return (
       <div className="app">
 
        <Route path="/" exact render={ () => (
 
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <div>
+          <ListBooks {...this.state}/>
 
-               {/*Bookshelfs starts here*/}
-
-               {shelves.map( (shelf) => (
-											<div className="bookshelf" key={shelf.id}>
-													<h2 className="bookshelf-title">{shelf.title}</h2>
-													<div className="bookshelf-books">
-														<BooksGrid shelves={ shelves } books={ books.filter( book => book.shelf === shelf.id) }/>
-													</div>
-											</div>
-									))}
-
-               {/*And ends here*/}
-
-              </div>
-            </div>
-            <div className="open-search">
-              <Link to="/search">Add a book</Link>
-            </div>
-          </div>
 				)} />
 
 
         <Route path="/search" render={ () => (
+
           <Search shelves={ shelves }/>
+
         )}  />
       </div>
     )
