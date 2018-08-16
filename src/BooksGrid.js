@@ -7,13 +7,15 @@ class BooksGrid extends Component {
 
 	static propTypes = {
 		books: PropTypes.array.isRequired,
-		shelves: PropTypes.array.isRequired
+		shelves: PropTypes.array.isRequired,
+		onChange: PropTypes.func.isRequired
 	}
 
 
 	onShelfChange = (newShelf, id) => {
-		console.log(this.props + " -> " + newShelf)
-		BooksAPI.update( { id }, newShelf).then( console.log('updated') )
+		BooksAPI.update( { id }, newShelf).then(
+			this.props.onChange(newShelf, id)
+		)
 	}
 
 	render() {
