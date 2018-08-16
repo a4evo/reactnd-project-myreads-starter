@@ -7,7 +7,8 @@ import PropTypes from 'prop-types'
 class Search extends Component {
 
 	static propTypes = {
-		shelves: PropTypes.array.isRequired
+		shelves: PropTypes.array.isRequired,
+		books: PropTypes.array.isRequired
 	}
 
 	state = {
@@ -18,6 +19,10 @@ class Search extends Component {
 	updateQuery = ( query ) => {
 		query = query.trim()
 		this.setState({ query })
+	}
+
+	componentWillReceiveProps (props) {
+		console.log(props)
 	}
 
 	componentDidUpdate(prevProp, prevState) {

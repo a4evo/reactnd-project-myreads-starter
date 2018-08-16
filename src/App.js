@@ -35,21 +35,26 @@ class BooksApp extends Component {
 	}
 
   render() {
-		const { shelves }	= this.state
+		const { shelves, books }	= this.state
 
     return (
       <div className="app">
 
        <Route path="/" exact render={ () => (
 
-          <ListBooks {...this.state} onChange={ (shelf, id) => this.moveBook(shelf, id)}/>
+          <ListBooks {...this.state} onChange={ (shelf, id) => this.moveBook(shelf, id)} />
 
 				)} />
 
 
         <Route path="/search" render={ () => (
 
-          <Search shelves={ shelves }/>
+          <Search shelves={ shelves } books={
+								books.map( book => {
+									const { id, shelf } = book
+									return { id, shelf }
+								})
+							}/>
 
         )}  />
       </div>
