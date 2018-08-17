@@ -64,7 +64,7 @@ class BooksApp extends Component {
           		books={{idArr: books.map( book => book.id),	shelfArr: books.map( book => book.shelf)}}
           		onChange={ (s, id, addNew ) =>
 										{this.moveBook( s, id, addNew )
-									 	history.push('/')}}
+									 	}}
           />
 
         )}  />

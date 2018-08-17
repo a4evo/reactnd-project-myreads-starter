@@ -20,25 +20,30 @@ class Search extends Component {
 	updateQuery = ( query ) => {
 		query = query.trim()
 		this.setState({ query })
-		BooksAPI.search( query ).then( response => {
-			const { idArr, shelfArr } = this.props.books
 
-			if ( response && Array.isArray(response) ) {
-				this.setState({ books: response.map( book => {
-						if ( !book.shelf ) book.shelf = "none"
+		if ( query === '' ) {
+			this.setState({ books: [] })
+		} else {
 
-						if ( idArr.length > 0 ) {
-							const i = idArr.indexOf( book.id )
-							if ( i !== -1) book.shelf = shelfArr[i]
-						}
+			BooksAPI.search( query ).then( response => {
+				const { idArr, shelfArr } = this.props.books
 
-					return book;
+				if ( response && Array.isArray(response) && query !== '') {
+					this.setState({ books: response.map( book => {
+							if ( !book.shelf ) book.shelf = "none"
+
+							if ( idArr.length > 0 ) {
+								const i = idArr.indexOf( book.id )
+								if ( i !== -1) book.shelf = shelfArr[i]
+							}
+
+						return book;
+						})
 					})
-				})
-			} else {
-				this.setState({ books: [] })
-			}
-		})
+				} else {
+					this.setState({ books: [] })
+				}
+		})}
 	}
 
 	render () {
@@ -63,7 +68,7 @@ class Search extends Component {
 									placeholder="Search by title or author"
 									onChange={ e => {
 												this.updateQuery(e.target.value)}}
-									value={ query }
+
 						/>
 
 					</div>
