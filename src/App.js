@@ -30,7 +30,7 @@ class BooksApp extends Component {
 		BooksAPI.update( { id }, shelf).then( (resp) => {
 			if (addNew) {
 				BooksAPI.get( id ).then( resp => {
-					books = this.state.books.push(resp)
+					this.setState( prev => prev.books.push(resp))
 				})
 			} else {
 				books = this.state.books.filter( book => {
@@ -38,9 +38,10 @@ class BooksApp extends Component {
 				return book.shelf !== 'none'
 
 				})
+				this.setState({ books })
 			}
 
-			this.setState({ books })
+
 		})
 	}
 
