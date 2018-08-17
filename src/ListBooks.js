@@ -15,15 +15,8 @@ class ListBooks extends Component {
 		books: []
 	}
 
-
-	componentWillReceiveProps (props) {
-		const { books } = props
-		this.setState({ books })
-	}
-
 	render() {
-		const { shelves }	= this.props
-		const { books }	= this.state
+		const { shelves, books }	= this.props
 
 		return (
 			<Container>
