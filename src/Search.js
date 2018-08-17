@@ -8,7 +8,8 @@ class Search extends Component {
 
 	static propTypes = {
 		shelves: PropTypes.array.isRequired,
-		books: PropTypes.object
+		books: PropTypes.object.isRequired,
+		onChange: PropTypes.func.isRequired
 	}
 
 	state = {
@@ -34,7 +35,6 @@ class Search extends Component {
 					return book;
 					})
 				})
-				console.log(this.state)
 			} else {
 				this.setState({ books: [] })
 			}
@@ -70,8 +70,10 @@ class Search extends Component {
 				</div>
 				<div className="search-books-results">
 
-							<BooksGrid
-								books={books} shelves={shelves}/>
+							<BooksGrid books={books}
+										shelves={shelves}
+										onChange={ (s, id, addNew ) => this.props.onChange( s, id, addNew )}
+							/>
 
 				</div>
 			</div>

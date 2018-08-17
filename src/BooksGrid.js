@@ -22,7 +22,7 @@ class BooksGrid extends Component {
 						<Book book={ book }
 									key={ book.id }
 									shelves={ shelves }
-									onChange={ (s, id ) => this.props.onChange(s, id)}/>
+									onChange={ (s, id, addNew ) => this.props.onChange( s, id, addNew )}/>
 
 				))) : (
 				<div>Nothing found</div>
@@ -57,7 +57,7 @@ class Book extends Component {
 
 								<ShelfSelector shelf={ shelf }
 																shelves={ shelves }
-																onChange={ s => this.props.onChange(s, id)}
+																onChange={ s => this.props.onChange(s, id, shelf === 'none' && shelf !== s)}
 															/>
 
 							</div>

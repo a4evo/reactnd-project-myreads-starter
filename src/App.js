@@ -25,12 +25,20 @@ class BooksApp extends Component {
 		})
 	}
 
-	moveBook = (shelf, id) => {
-		BooksAPI.update( { id }, shelf).then( () => {
-			const books = this.state.books.filter( book => {
+	moveBook = (shelf, id, addNew) => {
+		let books = [];
+		BooksAPI.update( { id }, shelf).then( (resp) => {
+			if (addNew) {
+				BooksAPI.get( id ).then( resp => {
+					books = this.state.books.push(resp)
+				})
+			} else {
+				books = this.state.books.filter( book => {
 				if (book.id === id) book.shelf = shelf
 				return book.shelf !== 'none'
-			})
+
+				})
+			}
 
 			this.setState({ books })
 		})
@@ -49,11 +57,14 @@ class BooksApp extends Component {
 				)} />
 
 
-        <Route path="/search" render={ () => (
+        <Route path="/search" render={ ( { history } ) => (
 
           <Search shelves={ shelves }
-          		books={{idArr: books.map( book => book.id),
-          		shelfArr: books.map( book => book.shelf)}}/>
+          		books={{idArr: books.map( book => book.id),	shelfArr: books.map( book => book.shelf)}}
+          		onChange={ (s, id, addNew ) =>
+										{this.moveBook( s, id, addNew )
+									 	history.push('/')}}
+          />
 
         )}  />
       </div>
