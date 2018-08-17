@@ -20,34 +20,43 @@ class Search extends Component {
 	updateQuery = ( query ) => {
 		query = query.trim()
 		this.setState({ query })
+	}
 
-		if ( query === '' ) {
-			this.setState({ books: [] })
-		} else {
+	newSearchRequest ( query ) {
 
-			BooksAPI.search( query ).then( response => {
-				const { idArr, shelfArr } = this.props.books
+		BooksAPI.search( query ).then( response => {
+			const { idArr, shelfArr } = this.props.books
 
-				if ( response && Array.isArray(response) && query !== '') {
-					this.setState({ books: response.map( book => {
-							if ( !book.shelf ) book.shelf = "none"
+			if ( response && Array.isArray(response) && query !== '') {
+				this.setState({ books: response.map( book => {
+						if ( !book.shelf ) book.shelf = "none"
 
-							if ( idArr.length > 0 ) {
-								const i = idArr.indexOf( book.id )
-								if ( i !== -1) book.shelf = shelfArr[i]
-							}
+						if ( idArr.length > 0 ) {
+							const i = idArr.indexOf( book.id )
+							if ( i !== -1) book.shelf = shelfArr[i]
+						}
 
-						return book;
-						})
+					return book;
 					})
-				} else {
-					this.setState({ books: [] })
-				}
-		})}
+				})
+			} else {
+				this.setState({ books: [] })
+			}
+		})
+	}
+
+	componentDidUpdate ( p, s ) {
+		if (s.query !== this.state.query) {
+			this.newSearchRequest( this.state.query )
+		}
+
+		if (this.state.query === '' && this.state.books.length > 0 ) {
+			this.setState({ books: [] })
+		}
 	}
 
 	render () {
-		const { books, query } = this.state
+		const { books } = this.state
 		const { shelves } = this.props
 
 		return (
