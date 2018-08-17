@@ -1,23 +1,28 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import { Route } from 'react-router-dom'
 import ListBooks from './ListBooks'
 import Search from './Search'
 
 class BooksApp extends Component {
   state = {
-		shelves: [	{id: 'currentlyReading',
-								title: 'Currently Reading'},
+  	shelves: [{
+  			id: 'currentlyReading',
+  			title: 'Currently Reading'
+  		},
 
-								{id: 'wantToRead',
-								title: 'Want to Read'},
+  		{
+  			id: 'wantToRead',
+  			title: 'Want to Read'
+  		},
 
-								{id: 'read',
-								title: 'Read'}],
-		books: []
+  		{
+  			id: 'read',
+  			title: 'Read'
+  		}],
+  	books: []
   }
-
 	//when component mounts receive all books
 	componentDidMount () {
 		BooksAPI.getAll().then( (books) => {

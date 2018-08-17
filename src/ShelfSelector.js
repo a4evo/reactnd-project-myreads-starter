@@ -1,19 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-class ShelfSelector extends Component {
-	static propTypes = {
-		shelf: PropTypes.string.isRequired,
-		shelves: PropTypes.array.isRequired,
-		onChange: PropTypes.func.isRequired
-	}
+const ShelfSelector = ( props ) => {
 
-	render() {
-		const {shelves, shelf} = this.props
+		const {shelves, shelf} = props
 
 		return (
 			<div className="book-shelf-changer">
-				<select defaultValue={shelf} onChange={e => this.props.onChange(e.target.value)}>
+				<select defaultValue={shelf} onChange={e => props.onChange(e.target.value)}>
 					<option value="move" disabled>Move to...</option>
 
 					{shelves.map( shelf => (
@@ -24,7 +18,12 @@ class ShelfSelector extends Component {
 				</select>
 			</div>
 		)
-	}
 }
+
+ShelfSelector.propTypes = {
+		shelf: PropTypes.string.isRequired,
+		shelves: PropTypes.array.isRequired,
+		onChange: PropTypes.func.isRequired
+	}
 
 export default ShelfSelector;

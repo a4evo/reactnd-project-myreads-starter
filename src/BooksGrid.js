@@ -1,72 +1,33 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import ShelfSelector from './ShelfSelector'
+import Book from './Book'
 
-class BooksGrid extends Component {
+const BooksGrid = ( props ) => {
 
-	static propTypes = {
-		books: PropTypes.array.isRequired,
-		shelves: PropTypes.array.isRequired,
-		onChange: PropTypes.func.isRequired
-	}
+	const { books, shelves } = props
 
-	render() {
+	return (
+		<ol className="books-grid">
 
-		const { books, shelves } = this.props
+			{(	books.length > 0 ) ? (
+				books.map( book => (
+					<Book book={ book }
+								key={ book.id }
+								shelves={ shelves }
+								onChange={ (s, id, addNew ) => props.onChange( s, id, addNew )}
+					/>
 
-		return (
-			<ol className="books-grid">
-
-				{(	books.length > 0 ) ? (
-					books.map( book => (
-						<Book book={ book }
-									key={ book.id }
-									shelves={ shelves }
-									onChange={ (s, id, addNew ) => this.props.onChange( s, id, addNew )}/>
-
-				))) : (
-				<div>Nothing found</div>
-				)}
-			</ol>
-		)
-	}
-
+			))) : (
+			<div>Nothing yet found</div>
+			)}
+		</ol>
+	)
 }
 
-class Book extends Component {
-	static propTypes = {
-			book: PropTypes.object.isRequired,
-			shelves: PropTypes.array.isRequired,
-			onChange: PropTypes.func.isRequired
-		}
-
-	render () {
-
-		const { book, shelves } = this.props
-		const { id, imageLinks, title, authors, shelf } = book
-
-		const imgURL = ( imageLinks !== undefined && imageLinks.thumbnail !== undefined) ? ('url("' + imageLinks.thumbnail + '")') : ('none')
-
-		const author = (authors) ? (authors.join(', ')):('Unknown')
-
-		return(
-			<li key={id}>
-						<div className="book">
-							<div className="book-top">
-								<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: imgURL }}></div>
-
-								<ShelfSelector shelf={ shelf }
-																shelves={ shelves }
-																onChange={ s => this.props.onChange(s, id, shelf === 'none' && shelf !== s)}
-															/>
-
-							</div>
-							<div className="book-title">{ title }</div>
-							<div className="book-authors">{ author }</div>
-						</div>
-					</li>
-		)
-	}
+BooksGrid.propTypes = {
+	books: PropTypes.array.isRequired,
+	shelves: PropTypes.array.isRequired,
+	onChange: PropTypes.func.isRequired
 }
 
 export default BooksGrid

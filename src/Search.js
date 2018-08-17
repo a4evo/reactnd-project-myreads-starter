@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
-import BooksGrid from './BooksGrid'
 import PropTypes from 'prop-types'
+import * as BooksAPI from './BooksAPI'
+import './App.css'
+import BooksGrid from './BooksGrid'
 
 class Search extends Component {
 
@@ -29,16 +30,15 @@ class Search extends Component {
 
 			if ( response && Array.isArray(response) && query !== '') {
 				this.setState({ books: response.map( book => {
-						if ( !book.shelf ) book.shelf = "none"
 
-						if ( idArr.length > 0 ) {
-							const i = idArr.indexOf( book.id )
-							if ( i !== -1) book.shelf = shelfArr[i]
-						}
+					if ( !book.shelf ) book.shelf = "none"
 
+					if ( idArr.length > 0 ) {
+						const i = idArr.indexOf( book.id )
+						if ( i !== -1) book.shelf = shelfArr[i]
+					}
 					return book;
-					})
-				})
+				})	})
 			} else {
 				this.setState({ books: [] })
 			}
@@ -75,9 +75,7 @@ class Search extends Component {
 						*/}
 						<input type="text"
 									placeholder="Search by title or author"
-									onChange={ e => {
-												this.updateQuery(e.target.value)}}
-
+									onChange={ e => {this.updateQuery(e.target.value)}}
 						/>
 
 					</div>
